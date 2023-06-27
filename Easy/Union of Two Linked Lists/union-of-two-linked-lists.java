@@ -101,7 +101,7 @@ class Sol
 	        curr = curr.next;
 	    }
 	    Collections.sort(list);
-	    LinkedList<Node> n = new LinkedList<>();
+	    
 	    Node head3 = new Node(list.get(0));
 	    curr = head3;
 	    for(int i=1;i<list.size();i++)
