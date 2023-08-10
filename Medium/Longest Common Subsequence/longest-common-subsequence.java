@@ -30,16 +30,25 @@ class Solution
     static int lcs(int x, int y, String s1, String s2)
     {
         // your code here
-        int dp[][]=new int[x+1][y+1];
-        for (int i=x-1;i>=0;i--){
-            for (int j=y-1;j>=0;j--){
-                    if( s1.charAt(i)==s2.charAt(j) )
-                    dp[i][j] = 1 + dp[i+1][j+1];
-                    else
-                    dp[i][j]= Math.max( dp[i][j+1] , dp[i+1][j] );
-            }
+        int dp[][] = new int[x+1][y+1];
+        for(int i=1;i<=x;i++)
+        {
+            for(int j=1;j<=y;j++)
+                dp[i][j] = -1;
         }
-        return dp[0][0];
+        return lcsUtil(x,y,s1,s2,dp);
     }
-    
+    static int lcsUtil(int x, int y, String s1, String s2, int dp[][])
+    {
+        if(x==0 || y==0)
+            return dp[x][y];
+            
+        if(dp[x][y]!=-1)
+            return dp[x][y]; 
+            
+        if(s1.charAt(x-1)==s2.charAt(y-1))
+            return dp[x][y] = 1 + lcsUtil(x-1,y-1,s1,s2,dp);
+        else
+            return dp[x][y] = Math.max(lcsUtil(x-1,y,s1,s2,dp),lcsUtil(x,y-1,s1,s2,dp));
+    }
 }
