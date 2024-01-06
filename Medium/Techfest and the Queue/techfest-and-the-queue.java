@@ -43,8 +43,7 @@ class Solution {
     static long getFac(int num)
     {
         long ans = 0;
-        int number = num;
-        for(int i=2;i*i<=number;i++)
+        for(int i=2;i*i<=num;i++)
         {
             while(num%i==0)
             {
