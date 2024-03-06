@@ -34,20 +34,23 @@ class GFG
 class Solution
 {
     
-    ArrayList<Integer> search(String pat, String S)
+    ArrayList<Integer> search(String pattern, String text)
     {
         // your code here
-        ArrayList<Integer> list = new ArrayList<>();
-        for(int i=0;i<=S.length()-pat.length();i++)
-        {
-            int k = 0;
-            while(k<pat.length() && pat.charAt(k)==S.charAt(i+k))
-                k++;
-            if(k==pat.length())
-                list.add(i+1);
+        ArrayList<Integer> ans=new ArrayList<>();
+        int j=0;
+        for(int i=0;i<text.length()-pattern.length()+1;i++){
+            if(text.charAt(i)==pattern.charAt(0)){
+                
+                for(j=1;j<pattern.length();j++){
+                    if(text.charAt(i+j)!=pattern.charAt(j)){
+                       break; 
+                    }
+                }
+                if(j==pattern.length()){
+                   ans.add(i+1);                }
+            }
         }
-        if(list.isEmpty())
-            list.add(-1);
-        return list;
+        return ans;
     }
 }
