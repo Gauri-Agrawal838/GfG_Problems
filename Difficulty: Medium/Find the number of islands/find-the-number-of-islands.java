@@ -4,10 +4,10 @@ import java.util.*;
 class GFG {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
-        int tc = scanner.nextInt(); // Number of test cases
+        int tc = scanner.nextInt();
         while (tc-- > 0) {
-            int n = scanner.nextInt(); // Number of rows
-            int m = scanner.nextInt(); // Number of columns
+            int n = scanner.nextInt();
+            int m = scanner.nextInt();
             char[][] grid = new char[n][m];
 
             // Read the grid input
@@ -17,8 +17,9 @@ class GFG {
                 }
             }
             Solution obj = new Solution();
-            int ans = obj.numIslands(grid);
+            int ans = obj.countIslands(grid);
             System.out.println(ans);
+            System.out.println("~");
         }
         scanner.close();
     }
@@ -28,42 +29,47 @@ class GFG {
 
 
 class Solution {
-    int[][] dirs = new int[][]{{0,-1},{-1, 0},{0,1},{1,0},{-1,-1},{-1,1},{1,1},{1,-1}};
-    
-    public int numIslands(char[][] grid) {
+    public int countIslands(char[][] grid) {
         // Code here
-        int noOfIslands = 0;
-        int rows = grid.length;
-        int cols = grid[0].length;
-        boolean[][] visited = new boolean[rows][cols];
+        int res = 0;
+        if(grid==null||grid.length==0)
+        return res;
         
-        for(int i=0; i<rows; i++){
-            for(int j=0; j<cols; j++){
-                if(grid[i][j] != '0' && !visited[i][j]){
-                    dfs(grid, visited, i, j);
-                    noOfIslands++;
+        int r = grid.length;
+        int c = grid[0].length;
+        boolean[][] vis = new boolean[r][c];
+        // int[][] dxdy = {{-1-1,},
+        //     {}
+        // }
+        for(int i=0;i<r;i++)
+        {
+            for(int j=0;j<c;j++)
+            {
+                if(!vis[i][j] && grid[i][j] =='L')
+                {
+                    dfs(grid,i,j,vis);
+                    res++;
                 }
             }
         }
-        
-        return noOfIslands;
+        return res;
     }
-    
-    private void dfs(char[][] grid, boolean[][] visited, int i, int j){
-        if(grid[i][j] == '0'){
-            return;
-        }
+    private void dfs(char[][]grid,int i,int j,boolean[][]vis)
+    {
+        if(i<0 || i>=grid.length || j<0 || j>=grid[0].length)
+        return;
         
-        visited[i][j] = true;
+        if(vis[i][j] || grid[i][j] != 'L')
+        return;
         
-        for(int[] dir : dirs){
-            int r = i+dir[0];
-            int c = j+dir[1];
-            
-            if(r >= 0 && r < grid.length && c >= 0 && c < grid[0].length &&
-                grid[r][c] == '1' && !visited[r][c]){
-                dfs(grid, visited, r, c);
-            }
-        }
+        vis[i][j] = true;
+        dfs(grid,i-1,j-1,vis);
+        dfs(grid,i-1,j,vis);
+        dfs(grid,i-1,j+1,vis);
+        dfs(grid,i,j+1,vis);
+        dfs(grid,i+1,j+1,vis);
+        dfs(grid,i+1,j,vis);
+        dfs(grid,i+1,j-1,vis);
+        dfs(grid,i,j-1,vis);
     }
 }
