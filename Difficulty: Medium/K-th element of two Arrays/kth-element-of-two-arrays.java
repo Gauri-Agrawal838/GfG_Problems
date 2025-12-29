@@ -1,62 +1,32 @@
-//{ Driver Code Starts
-// Initial Template for Java
-
-import java.io.*;
-import java.lang.*;
-import java.util.*;
-
-class GFG {
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        int t = Integer.parseInt(br.readLine().trim());
-        while (t-- > 0) {
-            int k = Integer.parseInt(br.readLine().trim());
-
-            String[] line1 = br.readLine().trim().split(" ");
-            int[] a = new int[line1.length];
-            for (int i = 0; i < line1.length; i++) {
-                a[i] = Integer.parseInt(line1[i]);
-            }
-
-            String[] line2 = br.readLine().trim().split(" ");
-            int[] b = new int[line2.length];
-            for (int i = 0; i < line2.length; i++) {
-                b[i] = Integer.parseInt(line2[i]);
-            }
-
-            Solution ob = new Solution();
-            System.out.println(ob.kthElement(a, b, k));
-            System.out.println("~");
-        }
-    }
-}
-
-// } Driver Code Ends
-
-
-// User function Template for Java
-
 class Solution {
     public int kthElement(int a[], int b[], int k) {
         // code here
-        int arr[]=new int[a.length+b.length];
-        int lena=a.length;
-        int lenb=b.length;
-        if(a.length<=0  ){
-            return  0;
-        }
-        if(b.length<=0){
-            return 0;
-        }
-        
-        System.arraycopy(a,0,arr,0,lena);
-        System.arraycopy(b,0,arr,lena,lenb);
-        Arrays.sort(arr);
-        for(int i=0;i<arr.length;i++){
-            if(i==k-1){
-                return arr[i];
+        int n1 = a.length;
+      int n2 = b.length;
+      int ret;
+      if(n1 > n2) ret = fn(b,a,k);
+      else ret = fn(a,b,k);
+      return ret;
+    }
+    private int fn(int[] arr1, int[] arr2, int k){
+        int n1 = arr1.length;
+        int n2 = arr2.length;
+        int left = k;
+        int low = Math.max(0,k-n2);
+        int high = Math.min(k,n1);
+        while(low <= high){
+            int mid1 = low + (high-low)/2;
+            int mid2 = left-mid1;
+            int l1 = mid1>0?arr1[mid1-1]:Integer.MIN_VALUE;
+            int l2 = mid2>0?arr2[mid2-1]:Integer.MIN_VALUE;
+            int r1 = mid1<n1?arr1[mid1]:Integer.MAX_VALUE;
+            int r2 = mid2<n2?arr2[mid2]:Integer.MAX_VALUE;
+            if(l1>r2) high = mid1-1;
+            else if(l2>r1) low = mid1+1;
+            else{
+                return Math.max(l1,l2);
             }
         }
-        return -1;
+        return 0;
     }
 }
