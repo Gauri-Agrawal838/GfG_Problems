@@ -1,25 +1,27 @@
 class Solution {
-    public ArrayList<Integer> findGreater(int[] arr) {
+    public ArrayList<Integer> nextFreqGreater(int[] arr) {
         // code here
-        HashMap<Integer,Integer>hm=new HashMap<>();
-        ArrayList<Integer>res=new ArrayList<>();
-        int n=arr.length;
-        for(int i=0;i<n;i++)
-        {
-            hm.put(arr[i],hm.getOrDefault(arr[i],0)+1);
+        HashMap<Integer , Integer>map = new HashMap<>();
+        ArrayList<Integer>result = new ArrayList<>();
+        Stack<Integer>st = new Stack<>();
+        for(int i=0;i<arr.length;i++){
+            map.put(arr[i], map.getOrDefault(arr[i],0)+1);
         }
-        Stack<int []>st=new Stack<>();
-        for(int i=n-1;i>=0;i--)
-        {
-            while(!st.isEmpty() && st.peek()[1]<=hm.get(arr[i]))
-            st.pop();
-            if(st.isEmpty())
-            res.add(-1);
-            else
-            res.add(st.peek()[0]);
-            st.push(new int[]{arr[i],hm.get(arr[i])});
+        int i=arr.length-1;
+        while(i>=0){
+            while(!st.isEmpty()&& (map.get(st.peek())<=map.get(arr[i]))){
+                st.pop();
+            }
+            if(st.isEmpty()){
+                result.add(-1);
+            }
+            else{
+                result.add(st.peek());
+            }
+            st.push(arr[i]);
+            i--;
         }
-        Collections.reverse(res);
-        return res;
+        Collections.reverse(result);
+        return result;
     }
 }
